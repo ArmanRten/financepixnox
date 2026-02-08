@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { createExpense as createLocalExpense, deleteExpense as deleteLocalExpense, listExpenses } from '@/lib/local-expenses';
 import { motion } from 'framer-motion';
 import { Plus, Wallet, TrendingDown, Calendar, PiggyBank } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,20 +18,20 @@ export default function Dashboard() {
   const [period, setPeriod] = useState('month');
   const queryClient = useQueryClient();
 
-  const { data: expenses = [], isLoading } = useQuery({
+  const { data: expenses = [] } = useQuery({
     queryKey: ['expenses'],
-    queryFn: () => base44.entities.Expense.list('-date')
+    queryFn: () => listExpenses('-date')
   });
 
   const createExpense = useMutation({
-    mutationFn: (data) => base44.entities.Expense.create(data),
+    mutationFn: (data) => createLocalExpense(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] });
     }
   });
 
   const deleteExpense = useMutation({
-    mutationFn: (id) => base44.entities.Expense.delete(id),
+    mutationFn: (id) => deleteLocalExpense(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['expenses'] });
     }
