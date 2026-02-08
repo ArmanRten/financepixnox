@@ -1,0 +1,53 @@
+{
+  "name": "Expense",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "description": "The expense amount"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "food",
+        "transport",
+        "shopping",
+        "bills",
+        "entertainment",
+        "health",
+        "education",
+        "travel",
+        "groceries",
+        "subscriptions",
+        "other"
+      ],
+      "description": "Expense category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the expense"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the expense"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "cash",
+        "credit_card",
+        "debit_card",
+        "bank_transfer",
+        "other"
+      ],
+      "default": "cash",
+      "description": "Payment method used"
+    }
+  },
+  "required": [
+    "amount",
+    "category",
+    "date"
+  ]
+}
